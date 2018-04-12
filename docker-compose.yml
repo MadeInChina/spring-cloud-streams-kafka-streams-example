@@ -1,0 +1,96 @@
+version: '2'
+services:
+  kafka-stream:
+    image: docker.madeinchina.net/kafka-stream:latest
+    links:
+    - broker1:broker1
+    - broker2:broker2
+    - broker3:broker3
+  dashboard-api:
+    image: docker.madeinchina.net/dashboard-api:latest
+    links:
+    - broker1:broker1
+    - broker2:broker2
+    - broker3:broker3
+    ports:
+    - 8081:8080/tcp
+  broker1:
+    image: slamhan/plain-kafka:latest
+    hostname: broker1
+    environment:
+      KAFKA_BROKER_ID: '1'
+      ZK_SERVERS: zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.100
+    links:
+    - zookeeper:zookeeper
+    ports:
+    - 9092:9092/tcp
+  broker2:
+    image: slamhan/plain-kafka:latest
+    hostname: broker2
+    environment:
+      KAFKA_BROKER_ID: '2'
+      ZK_SERVERS: zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.100
+    links:
+    - zookeeper:zookeeper
+    ports:
+    - 9093:9092/tcp
+  broker3:
+    image: slamhan/plain-kafka:latest
+    hostname: broker3
+    environment:
+      KAFKA_BROKER_ID: '3'
+      ZK_SERVERS: zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.2.100
+    links:
+    - zookeeper:zookeeper
+    ports:
+    - 9094:9092/tcp
+  zookeeper:
+    image: qnib/plain-zookeeper:latest
+    ports:
+    - 2181:2181/tcp
+  kafka-manager:
+    image: qnib/plain-kafka-manager:latest
+    environment:
+      APPLICATION_SECRET: letmein
+      ZOOKEEPER_HOSTS: zookeeper:2181
+    links:
+    - zookeeper:zookeeper
+    ports:
+    - 9000:9000/tcp
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+    ports:
+    - 3307:3306/tcp
+    command:
+    - docker-entrypoint.sh
+    - --server-id=1
+    - --log-bin=master
+    - --binlog_format=row
+    volumes:
+    - ./sql:/docker-entrypoint-initdb.d
+  zkui:
+    image: qnib/plain-zkui:latest
+    environment:
+      ZK_SERVER: zookeeper:2181
+    links:
+    - zookeeper:zookeeper
+    ports:
+    - 9090:9090/tcp
+  maxwell:
+    image: slamhan/maxwell:latest
+    environment:
+      MAXWELL_OPTIONS: --kafka_topic=%{database}_%{table} --include_dbs kafka-stream --include_tables USER --log_level= debug
+      MYSQL_HOST: mysql
+      MYSQL_PASSWORD: '@password'
+      MYSQL_USERNAME: maxwell
+      KAFKA_BROKERS: broker1:9092
+    links:
+    - broker1:broker1
+    - broker2:broker2
+    - broker3:broker3
+    - mysql:mysql

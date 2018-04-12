@@ -1,0 +1,53 @@
+server:
+  port: 8080
+spring:
+  kafka:
+    bootstrap-servers: broker1:9092, broker2:9092, broker3:9092
+    topic: out-put-topic
+    consumer:
+      group-id: myGroup
+      client-id: clientid
+      auto-offset-reset: latest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+    template:
+      default-topic: out-put-topic
+  jpa:
+    database: MYSQL
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  datasource:
+    url: jdbc:mysql://mysql:3306/kafka-stream?characterEncoding=UTF-8
+    username: root
+    password: 123456
+
+#logging:
+## Log levels severity mapping
+#  level:
+#    org:
+#      springframework: INFO
+#      apache.kafka: DEBUG
+#    kafka: DEBUG
+
+#spring:
+#  kafka:
+#    producer:
+#      retries: 0
+#      batch-size: 16384
+#      buffer-memory: 33554432
+#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      bootstrap-servers: localhost:9092
+#    consumer:
+#      bootstrap-servers: localhost:9092
+#      group-id: foo
+#      auto-offset-reset: earliest
+#      enable-auto-commit: true
+#      auto-commit-interval: 100
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
