@@ -16,3 +16,12 @@ How to generate data to kafka
   then
      mysql> use kafka-stream;
      mysql> INSERT INTO `USER` SET NAME = 'TEST1';
+
+How to check logs:
+ e.g
+  Search kafka-stream-processor container
+  docker ps | grep "docker.madeinchina.net/kafka-stream:latest" | awk '{ print $1 }'  
+  4380aebe5328
+
+  check logs for kafka-stream-processor
+  docker logs -f  4380aebe5328
