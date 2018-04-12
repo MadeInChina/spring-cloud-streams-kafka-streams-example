@@ -8,3 +8,10 @@ How to build
 How to run
   under root folder run
   docker-compose up
+  
+How to generate data to kafka
+  login to mysql on docker:
+     mysql -h127.0.0.1 -P3307 -uroot -p123456
+  then
+     mysql> use kafka-stream;
+     mysql> INSERT INTO `USER` SET NAME = 'TEST1';
