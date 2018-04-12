@@ -1,4 +1,5 @@
 How to build
+ ````
  cd dashboard-api
      1.mvn clean install
      2.docker build -t docker.madeinchina.net/dashboard-api:latest .
