@@ -1,3 +1,5 @@
+server:
+  port: 8080
 #defaults
 spring.cloud.stream.kafka.streams.binder:
   brokers: broker1, broker2, broker3
@@ -5,12 +7,12 @@ spring.cloud.stream.kafka.streams.binder:
    processing.guarantee: exactly_once
    commit.interval.ms: 1000
    default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
-   default.value.serde: com.demo.streams.data.UserEventJsonSerde
+   default.value.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
 
 #user register in
 spring.cloud.stream.bindings.urin:
   destination: kafka-stream_USER
-  group: group1
+  group: user
   consumer:
     headerMode: raw
 
@@ -24,12 +26,31 @@ spring.cloud.stream.bindings.urot:
 spring.cloud.stream.kafka.streams.bindings.urot.producer:
     keySerde: org.apache.kafka.common.serialization.Serdes$StringSerde
     valueSerde: org.apache.kafka.common.serialization.Serdes$LongSerde
-    dspring.json.key.default.type: java.lang.String
 
 
+#Game transaction in
+spring.cloud.stream.bindings.gtin:
+  destination: kafka-stream_GAME_TRANSACTION
+  group: gametransaction
+  consumer:
+    headerMode: raw
+
+#Game 10 mins windowed out
+spring.cloud.stream.bindings.gtot:
+  destination: game_transaction_10_mins_windowed
+  producer:
+    useNativeEncoding: true
+    headerMode: raw
+
+spring.cloud.stream.kafka.streams.bindings.gtot.producer:
+    keySerde: org.apache.kafka.common.serialization.Serdes$LongSerde
+    valueSerde: org.springframework.kafka.support.serializer.JsonSerde
 
 
-
+logging:
+  info: true
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 #logging:
 ## Log levels severity mapping

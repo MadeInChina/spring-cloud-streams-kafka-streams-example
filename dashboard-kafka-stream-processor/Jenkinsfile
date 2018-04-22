@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'maven3.3.9'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Image Build And Push') {
+            steps {
+                script {
+                    def app = docker.build 'slamhan/kafka-stream:latest'
+                    app.push()
+                }
+            }
+        }
+    }
+}

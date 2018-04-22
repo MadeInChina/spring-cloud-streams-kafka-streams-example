@@ -1,21 +1,22 @@
 server:
   port: 8080
+
+kafka:
+  bootstrap-servers: broker1:9092, broker2:9092, broker3:9092
+  topics:
+    user: user-register-counts
+    game-transaction-10-mins: game_transaction_10_mins_windowed
+  consumers:
+    user:
+      group-id: user-consumer
+    game-transaction-10-mins:
+      group-id: gametransaction-consumer
+
 spring:
-  kafka:
-    bootstrap-servers: broker1:9092, broker2:9092, broker3:9092
-    topic: out-put-topic
-    consumer:
-      group-id: myGroup
-      client-id: clientid
-      auto-offset-reset: latest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.LongDeserializer
-    template:
-      default-topic: out-put-topic
   jpa:
     database: MYSQL
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -26,13 +27,19 @@ spring:
     username: root
     password: 123456
 
-#logging:
-## Log levels severity mapping
+logging:
+  info: true
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Log levels severity mapping
 #  level:
 #    org:
 #      springframework: INFO
 #      apache.kafka: DEBUG
 #    kafka: DEBUG
+
+
 
 #spring:
 #  kafka:

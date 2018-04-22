@@ -1,13 +1,15 @@
 version: '2'
 services:
   kafka-stream:
-    image: docker.madeinchina.net/kafka-stream:latest
+    image: slamhan/kafka-stream:latest
     links:
     - broker1:broker1
     - broker2:broker2
     - broker3:broker3
+    ports:
+    - 8082:8080/tcp
   dashboard-api:
-    image: docker.madeinchina.net/dashboard-api:latest
+    image: slamhan/dashboard-api:latest
     links:
     - broker1:broker1
     - broker2:broker2
@@ -84,7 +86,7 @@ services:
   maxwell:
     image: slamhan/maxwell:latest
     environment:
-      MAXWELL_OPTIONS: --kafka_topic=%{database}_%{table} --include_dbs kafka-stream --include_tables USER --log_level= debug
+      MAXWELL_OPTIONS: --kafka_topic=%{database}_%{table} --include_dbs kafka-stream --include_tables USER,GAME_TRANSACTION --log_level= debug
       MYSQL_HOST: mysql
       MYSQL_PASSWORD: '@password'
       MYSQL_USERNAME: maxwell

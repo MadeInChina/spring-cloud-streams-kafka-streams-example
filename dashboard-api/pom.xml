@@ -6,7 +6,7 @@
   <name>dashboard-api</name>
 
   <parent>
-    <groupId>com.demo.report</groupId>
+    <groupId>com.madeinchina.report</groupId>
     <artifactId>dashboard</artifactId>
     <version>1.0.0</version>
   </parent>
@@ -17,8 +17,8 @@
       <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-jpa</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.kafka</groupId>
@@ -68,8 +68,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <finalName>${project.name}</finalName>
-          <mainClass>com.demo.report.dashboard.Dashboard</mainClass>
+          <mainClass>com.madeinchina.report.dashboard.Dashboard</mainClass>
         </configuration>
         <executions>
           <execution>

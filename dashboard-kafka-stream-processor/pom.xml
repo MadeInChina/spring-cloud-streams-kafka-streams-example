@@ -4,13 +4,13 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.demo</groupId>
+  <groupId>com.madeinchina.report</groupId>
   <artifactId>streams</artifactId>
   <name>streams</name>
 
 
   <parent>
-    <groupId>com.demo.report</groupId>
+    <groupId>com.madeinchina.report</groupId>
     <artifactId>dashboard</artifactId>
     <version>1.0.0</version>
   </parent>
@@ -24,9 +24,15 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-webflux</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream-binder-kafka-streams</artifactId>
     </dependency>
+
 
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -60,7 +66,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <finalName>${project.name}</finalName>
-          <mainClass>com.demo.streams.StreamsApplication</mainClass>
+          <mainClass>com.madeinchina.streams.StreamsApplication</mainClass>
           <addResources>true</addResources>
         </configuration>
         <executions>
